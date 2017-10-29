@@ -32,9 +32,8 @@ class NeuralNetwork(object):
         return z
 
     def backward(self, y, z):
-        dw = []
         delta = ( z[-1] -  y )
-        dw.append(delta.T.dot(Dense.add_bias(z[-3])))
+        dw = [delta.T.dot(Dense.add_bias(z[-3]))]
         for i, layer in enumerate(reversed(self.model[1:-1])):
             delta = layer.backward(delta)
             if type(layer) is not Dense:
