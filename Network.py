@@ -9,13 +9,14 @@ class NeuralNetwork(object):
         self.optim = ""
 
     def add(self, obj):
-        """ Adding Layers """
+        """ Adding Layers to Model """
         if len(self.model) == 0:
             assert (type(obj) is Input), "Where is the Input layer?"
         self.model.append(obj)
 
     def train(self, X, Y, lr=1, reg=0, epochs=1, batch_size=1, verbose=1):
-        for epoch in range(1):
+        """ Training Model """
+        for epoch in range(epochs):
             z = self.forward(X)
             dw = self.backward(Y, z)
             self.update(lr, dw)
@@ -25,13 +26,16 @@ class NeuralNetwork(object):
                 loss = self.loss(z[-1],Y)
                 print("Epoch {}: loss: {}, training_accuracy: {}".format(epoch, loss, acc))
 
+
     def forward(self, x):
+        """ Feed Forward """
         z = [x]
         for i, layer in enumerate(self.model[1:]):
             z.append(layer.forward(z[i]))
         return z
 
     def backward(self, y, z):
+        """ Backward Propagation """
         delta = ( z[-1] -  y )
         dw = [delta.T.dot(Dense.add_bias(z[-3]))]
         for i, layer in enumerate(reversed(self.model[1:-1])):
@@ -41,6 +45,7 @@ class NeuralNetwork(object):
         return dw
     
     def update(self, lr, dw):
+        """ Update Weights """
         idx = - 1
         for layer in self.model:
             if type(layer) is Dense:
@@ -57,20 +62,24 @@ class NeuralNetwork(object):
                 units = layer.units
 
     def accuracy(self, x, Y):
+        """ Calculate accuracy """
         y_pred = self.predict(x)
         y = np.argmax(Y,axis=1) 
         num_correct = np.sum(y_pred == y)
         return float(num_correct) / Y.shape[0]
 
     def loss(self, probs, Y):
-        loss = -Y*np.log(probs)
-        return np.sum(loss) / Y.shape[0]
+        """ Calculate Loss """
+        loss = -Y*np.log(self.model[-1].forward(probs))
+        return loss.sum() / Y.shape[0]
 
     def predict(self, x):
+        """ Predict X """
         probs = self.forward(x)[-1]
         return np.argmax(probs, axis=1)
 
     def summary(self):
+        """ Print model summary """
         print((30*"-")+"\n"+(11*" ")+"Summary\n"+(30*"-"))
         for layer in self.model:
             print(layer.summary())
