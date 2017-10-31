@@ -1,6 +1,7 @@
 from __future__ import print_function
 from Layers import Input, Dense
 from Activation import Softmax
+from Optimizers import SGD
 import numpy as np
 
 class NeuralNetwork(object):
@@ -14,16 +15,26 @@ class NeuralNetwork(object):
             assert (type(obj) is Input), "Where is the Input layer?"
         self.model.append(obj)
 
-    def train(self, X, Y, lr=1, reg=0, epochs=1, batch_size=1, verbose=1):
+    def get_batch(self, X, Y, idx, batch_size):
+        start = idx*batch_size
+        end = (idx+1)*batch_size
+        return X[start:end], Y[start:end]
+
+    def train(self, X, Y, lr = 1, reg = 0, epochs = 1, batch_size = 1, verbose = 1):
         """ Training Model """
+        batches = int(X.shape[0] / batch_size)
+
         for epoch in range(epochs):
-            z = self.forward(X)
-            dw = self.backward(Y, z)
+
+            for batch in range(batches):
+                x, y = get_batch(X, Y, batch, batch_size) 
+                z = self.forward(x)
+                dw = self.backward(y, z)
+                self.update(lr, dw, reg, batch_size)
 
             if verbose == 1:
-                self.print_results(X,Y,z[-1],epoch)
+                self.print_results(X,Y,z[-1],epoch+1)
 
-            self.update(lr, dw)
 
     def forward(self, x):
         """ Feed Forward """
@@ -42,17 +53,17 @@ class NeuralNetwork(object):
                 dw.append(delta.T.dot(Dense.add_bias(z[-i-4])))
         return dw
     
-    def update(self, lr, dw):
+    def update(self, lr, dw, reg, batch_size):
         """ Update Weights """
         idx = - 1
         for layer in self.model:
             if type(layer) is Dense:
-                layer.update(-lr*dw[idx])
+                layer.update(self.optim.update(lr, dw), reg, batch_size)
                 idx = idx - 1
 
-    def compile(self, optim='sgd'):
+    def compile(self, optim = None):
         """ Initialize weights and set optimizer"""
-        self.optim = optim
+        self.optim = optim if optim != None else SGD()
         units = self.model[0].units
         for layer in self.model[1:]:
             if type(layer) is Dense:

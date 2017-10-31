@@ -26,7 +26,7 @@ y_test = y_test.reshape(y_test.shape[0], 1)
 # Define Model
 model = NeuralNetwork()
 model.add(Input(2))
-model.add(Dense(5))
+model.add(Dense(2))
 model.add(ReLU())
 model.add(Dense(1))
 model.add(Sigmoid())

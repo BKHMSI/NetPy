@@ -8,7 +8,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 np.random.seed(1337)  # for reproducibility
 
 # Init Vars
-epochs = 1000
+epochs = 20
 batch_size = 100
 
 # Fetch Data
@@ -29,7 +29,8 @@ model.compile()
 # Train Model
 for _ in range(epochs):
     batch = mnist.train.next_batch(batch_size)
-    model.train(batch[0], batch[1], lr=0.01, epochs=1)
+    model.train(batch[0], batch[1], lr=0.01, reg=0.01, epochs=epochs, 
+                batch_size=batch[0].shape[0])
 
 # Test Model
 print("Test Accuracy: {}".format(model.accuracy(mnist.test.images, mnist.test.labels)))
