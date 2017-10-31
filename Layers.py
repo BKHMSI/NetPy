@@ -8,7 +8,7 @@ class Dense(object):
 
     def init_weights(self, H):
         """ Xavier Initialization """
-        self.W = np.random.randn(self.units,H+1) / np.sqrt(self.units/2)
+        self.W = np.random.randn(self.units,H+1) / np.sqrt(float(self.units)/2)
 
     def forward(self, a):
         """ Feed Forward """

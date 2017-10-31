@@ -19,6 +19,15 @@ class Softmax(object):
     def summary(self):
         return "Softmax activation function"
 
+    @staticmethod
+    def cost(x):
+        s = np.max(x, axis=1)
+        s = s[:, np.newaxis]
+        e_x = np.exp(x - s)
+        div = np.sum(e_x, axis=1)
+        div = div[:, np.newaxis]
+        return e_x / div
+
 class Sigmoid(object):
     def __init__(self):
         self.x = None

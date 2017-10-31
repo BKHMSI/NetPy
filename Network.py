@@ -19,13 +19,11 @@ class NeuralNetwork(object):
         for epoch in range(epochs):
             z = self.forward(X)
             dw = self.backward(Y, z)
-            self.update(lr, dw)
 
             if verbose == 1:
-                acc = self.accuracy(X,Y)
-                loss = self.loss(z[-1],Y)
-                print("Epoch {}: loss: {}, training_accuracy: {}".format(epoch, loss, acc))
+                self.print_results(X,Y,z[-1],epoch)
 
+            self.update(lr, dw)
 
     def forward(self, x):
         """ Feed Forward """
@@ -64,18 +62,20 @@ class NeuralNetwork(object):
     def accuracy(self, x, Y):
         """ Calculate accuracy """
         y_pred = self.predict(x)
-        y = np.argmax(Y,axis=1) 
+        y = np.argmax(Y,axis=1) if Y.shape[1] != 1 else Y
         num_correct = np.sum(y_pred == y)
         return float(num_correct) / Y.shape[0]
 
     def loss(self, probs, Y):
         """ Calculate Loss """
-        loss = -Y*np.log(self.model[-1].forward(probs))
+        loss = -Y*np.log(Softmax.cost(probs))
         return loss.sum() / Y.shape[0]
 
     def predict(self, x):
         """ Predict X """
         probs = self.forward(x)[-1]
+        if probs.shape[1] == 1:
+            return (probs > 0.5)
         return np.argmax(probs, axis=1)
 
     def summary(self):
@@ -84,5 +84,10 @@ class NeuralNetwork(object):
         for layer in self.model:
             print(layer.summary())
         print(30*"-")
+
+    def print_results(self, X, Y, probs, epoch):
+        acc = self.accuracy(X,Y)
+        loss = self.loss(probs,Y)
+        print("Epoch {}: loss: {}, training_accuracy: {}".format(epoch, loss, acc))
 
     
