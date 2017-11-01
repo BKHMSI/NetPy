@@ -8,8 +8,8 @@ class SGD(object):
         return -lr*dw
 
 class Momentum(object):
-    def __init__(self, alpha = 0.5):
-        self.alpha = alpha
+    def __init__(self, momentum):
+        self.alpha = momentum
         self.v = 0
     
     def update(self, lr, dw):
@@ -50,6 +50,6 @@ class Adam(object):
         self.m = 0
     
     def update(self, lr, dw):
-        self.m = self.beta1 * self.m + (1-beta2) * dw
-        self.acc = self.beta2 * self.acc + (1-beta2) * (dw*dw)
+        self.m = self.beta1 * self.m + (1-self.beta2) * dw
+        self.acc = self.beta2 * self.acc + (1-self.beta2) * (dw*dw)
         return - lr * self.m / (np.sqrt(self.acc) + 1e-8)

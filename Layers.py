@@ -5,6 +5,7 @@ class Dense(object):
     def __init__(self, units):
         self.units = units
         self.W = []
+        self.optim = None
 
     def init_weights(self, H):
         """ Xavier Initialization """
@@ -17,9 +18,10 @@ class Dense(object):
     def backward(self, delta):
         return delta.dot(self.W)
 
-    def update(self, dw, reg, m):
-        dw = (1.0 / m) * dw * self.W[1:]
-        self.W += dw
+    def update(self, optim, dw, lr, reg, m):
+        dw /= m 
+        dw[1:] += reg * (self.W[1:]**2)
+        self.W += self.optim.update(lr, dw)
         
     def summary(self):
         return "Dense layer with size: {}".format(self.units)

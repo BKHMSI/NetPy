@@ -24,11 +24,11 @@ This is a generic neural network library implementation using NumPy.
 
 ### Optimization Functions
 - [x] Stochastic Gradient Descent (SGD)
-- [ ] Momentum
+- [x] Momentum
 - [ ] Nesterov Momentum
-- [ ] AdaGrad
-- [ ] RMSProp
-- [ ] Adam
+- [x] AdaGrad
+- [x] RMSProp
+- [x] Adam
 
 ### Loss Functions
 - [x] Categorical Cross-entropy (NLL)
