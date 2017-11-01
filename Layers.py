@@ -18,7 +18,7 @@ class Dense(object):
     def backward(self, delta):
         return delta.dot(self.W)
 
-    def update(self, optim, dw, lr, reg, m):
+    def update(self, dw, lr, reg, m):
         dw /= m 
         dw[1:] += reg * (self.W[1:]**2)
         self.W += self.optim.update(lr, dw)

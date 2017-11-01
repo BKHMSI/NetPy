@@ -1,7 +1,8 @@
 from __future__ import print_function
 import numpy as np
 from Network import NeuralNetwork
-from Activation import ReLU, Softmax, Sigmoid
+from Activation import ReLU, Sigmoid
+from Optimizers import Adam
 from Layers import Dense, Input
 
 np.random.seed(1337)  # for reproducibility
@@ -11,6 +12,7 @@ epochs = 22
 
 num_train = 10000
 num_test = 1000
+batch_size = 1000
 
 # Generate Training Set
 Xtr = np.random.randint(2, size=(num_train, 2))
@@ -33,10 +35,10 @@ model.add(Sigmoid())
 model.summary()
 
 # Compile Model
-model.compile()
+model.compile(optim=Adam())
 
 # Train Model
-model.train(Xtr, ytr, lr=1e-4, epochs=epochs)
+model.train(Xtr, ytr, lr=1e-4, reg=0, batch_size=batch_size, epochs=epochs, validation_split=0.1)
 
 # Test Model
 print("Test Accuracy: {}".format(model.accuracy(X_test, y_test)))

@@ -9,7 +9,6 @@ import numpy as np
 class NeuralNetwork(object):
     def __init__(self):
         self.model = []
-        self.optim = ""
 
     def add(self, obj):
         """ Adding Layers to Model """
@@ -18,11 +17,13 @@ class NeuralNetwork(object):
         self.model.append(obj)
 
     def get_batch(self, X, Y, idx, batch_size):
+        """ Return batch idx of X """
         start = idx*batch_size
         end = (idx+1)*batch_size
         return X[start:end], Y[start:end]
 
     def split_data(self, split_ratio, X, Y):
+        """ Split data into training and validation sets """
         border = int(X.shape[0]*split_ratio)
         X_valid = X[:border]
         Y_valid = Y[:border]
@@ -76,7 +77,7 @@ class NeuralNetwork(object):
         idx = - 1
         for layer in self.model:
             if type(layer) is Dense:
-                layer.update(self.optim, dw[idx], lr, reg, batch_size)
+                layer.update(dw[idx], lr, reg, batch_size)
                 idx = idx - 1
 
     def compile(self, optim = None):
@@ -99,7 +100,12 @@ class NeuralNetwork(object):
     def loss(self, X, Y):
         """ Calculate Loss """
         probs = self.forward(X)[-1]
-        loss = -Y*np.log(Softmax.cost(probs))
+        if probs.shape[1] == 1:
+            # Binary Cross Entropy
+            loss = -(Y*np.log(probs) + (1-Y)*np.log(1-probs))
+        else:
+            # Categorical Cross Entropy
+            loss = -Y*np.log(Softmax.cost(probs))
         return loss.sum() / Y.shape[0]
 
     def predict(self, X):

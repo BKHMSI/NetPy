@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import logistic
 
 class Softmax(object):
     def __init__(self):
@@ -34,7 +33,7 @@ class Sigmoid(object):
 
     def forward(self, x):
         self.x = x
-        return logistic.cdf(x)
+        return 1 / (1+np.exp(-x))
 
     def backward(self, delta):
         gg = self.forward(self.x)
