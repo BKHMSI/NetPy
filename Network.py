@@ -1,6 +1,6 @@
 from __future__ import print_function
 from Layers import Input, Dense
-from Activation import Softmax
+from Activation import Sigmoid, Softmax, ReLU
 from Optimizers import SGD
 from copy import deepcopy
 from tqdm import tqdm
@@ -68,7 +68,7 @@ class NeuralNetwork(object):
         dw = [delta.T.dot(Dense.add_bias(z[-3]))]
         for i, layer in enumerate(reversed(self.model[1:-1])):
             delta = layer.backward(delta)
-            if type(layer) is not Dense:
+            if type(layer) in [ReLU, Sigmoid, Softmax]:
                 dw.append(delta.T.dot(Dense.add_bias(z[-i-4])))
         return dw
     

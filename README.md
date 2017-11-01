@@ -8,11 +8,11 @@ This is a generic neural network library implementation using NumPy.
 
 - [x] Input
 - [x] Dense or Fully Connected
-- [ ] Dropout
+- [x] Dropout
 - [ ] Batch Normalization
 - [ ] Convolution 2D
 - [ ] Max Pooling
-- [ ] Flatten
+- [x] Flatten
 
 ### Activation Functions 
 - [x] Softmax
@@ -32,5 +32,5 @@ This is a generic neural network library implementation using NumPy.
 
 ### Loss Functions
 - [x] Categorical Cross-entropy (NLL)
-- [ ] Binary Cross-entropy
+- [x] Binary Cross-entropy
 - [ ] Mean Squared Error

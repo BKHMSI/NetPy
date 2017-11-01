@@ -32,6 +32,35 @@ class Dense(object):
         return np.concatenate((ones, x), axis=1)
 
 
+class Dropout(object):
+    def __init__(self, drop):
+        self.drop = drop
+        self.dropout = None
+
+    def forward(self, x):
+        self.dropout = np.random.binomial(1, 1-self.drop, size=x.shape)
+        return x * self.dropout
+
+    def backward(self, dw):
+        dropout = Dense.add_bias(self.dropout)
+        return dw * dropout
+
+    def summary(self):
+        return "Dropout layer of: {}".format(self.drop)
+
+class Flatten(object):
+    def __init__(self):
+        self.shape = None 
+
+    def forward(self, x):
+        self.shape = x.shape
+        return x.reshape(-1)
+
+    def backward(self, dw):
+        return dw.reshape(self.shape)
+
+
+
 
 class Input(object):
     def __init__(self, units):
@@ -41,6 +70,7 @@ class Input(object):
         pass
     
     def summary(self):
-        return "Input layer with size: {}".format(self.units) 
+        return "Input layer with shape: {}".format(self.units) 
+
 
     

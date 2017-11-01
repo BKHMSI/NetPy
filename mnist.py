@@ -2,7 +2,7 @@ from __future__ import print_function
 import numpy as np
 from Network import NeuralNetwork
 from Activation import ReLU, Softmax
-from Layers import Dense, Input
+from Layers import Dense, Input, Dropout
 from Optimizers import RMSProp
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -34,6 +34,7 @@ model = NeuralNetwork()
 model.add(Input(784))
 model.add(Dense(500))
 model.add(ReLU())
+model.add(Dropout(0.2))
 model.add(Dense(10))
 model.add(Softmax())
 model.summary()
