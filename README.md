@@ -1,4 +1,4 @@
-# Neural Network using NumPy
+# NetPy: A Neural Network Library using NumPy
 
 This is a generic neural network library implementation using NumPy. 
 
@@ -6,7 +6,7 @@ This is a generic neural network library implementation using NumPy.
 
 ### Layers
 
-- [x] Input
+- [x] Input 
 - [x] Dense or Fully Connected
 - [x] Dropout
 - [ ] Batch Normalization

@@ -1,4 +1,3 @@
-from __future__ import print_function
 import numpy as np
 
 class Dense(object):
@@ -60,8 +59,6 @@ class Flatten(object):
         return dw.reshape(self.shape)
 
 
-
-
 class Input(object):
     def __init__(self, units):
         self.units = units 
@@ -72,5 +69,22 @@ class Input(object):
     def summary(self):
         return "Input layer with shape: {}".format(self.units) 
 
+class Conv2D(object):
+    def __init__(self, filters, kernel_size, strides=(1,1), padding=(1,1)):
+        self.filters = filters  
+        self.kernel_size = kernel_size
+        self.strides = strides 
+        self.padding = padding
+
+        self.W = np.zeros(()) 
+
+    def forward(self, x):
+        pass 
+
+    def backward(self):
+        pass 
+
+    def summary(self):
+        pass
 
     

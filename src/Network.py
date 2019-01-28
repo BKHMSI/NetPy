@@ -1,10 +1,14 @@
 from __future__ import print_function
-from Layers import Input, Dense
-from Activation import Sigmoid, Softmax, ReLU
-from Optimizers import SGD
+
+import numpy as np
+
 from copy import deepcopy
 from tqdm import tqdm
-import numpy as np
+
+from src.Layers import Input, Dense
+from src.Activation import Sigmoid, Softmax, ReLU
+from src.Optimizers import SGD
+
 
 class NeuralNetwork(object):
     def __init__(self):

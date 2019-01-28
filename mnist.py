@@ -1,10 +1,12 @@
 from __future__ import print_function
+
 import numpy as np
-from Network import NeuralNetwork
-from Activation import ReLU, Softmax
-from Layers import Dense, Input, Dropout
-from Optimizers import RMSProp
 from tensorflow.examples.tutorials.mnist import input_data
+
+from src.Network import NeuralNetwork
+from src.Activation import ReLU, Softmax
+from src.Layers import Dense, Input, Dropout
+from src.Optimizers import RMSProp
 
 np.random.seed(1337)  # for reproducibility
 
@@ -47,4 +49,3 @@ model.train(X_train, Y_train, lr=1e-2, reg=0, epochs=epochs, batch_size=batch_si
 
 # Test Model
 print("Test Accuracy: {}".format(model.accuracy(X_test, Y_test)))
-
